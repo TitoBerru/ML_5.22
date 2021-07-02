@@ -9,30 +9,41 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
-		// Do the magic
+		res.render('products', {productos:products})
 	},
 
 	// Detail - Detail from one product
 	detail: (req, res) => {
-		// Do the magic
+		productoBuscado = req.params.id-1 
+		res.render('detail', {productos:products[productoBuscado]} );
+		// res.send('Llego desde detail')
 	},
 
 	// Create - Form to create
 	create: (req, res) => {
-		// Do the magic
+		res.render('product-create-form')
 	},
 	
 	// Create -  Method to store
 	store: (req, res) => {
-		// Do the magic
+		// res.send (req.body)
+		let idNuevo = products[products.length-1].id + 1;
+		let nuevoObjeto=  Object.assign({id: idNuevo},req.body);;
+		products.push(nuevoObjeto);
+   	    fs.writeFileSync(productsFilePath, JSON.stringify(products,null, ' '));
+		res.redirect('/');
 	},
 
 	// Update - Form to edit
 	edit: (req, res) => {
-		// Do the magic
+		productoBuscado = req.params.id-1
+		res.render('product-edit-form', {productos:products[productoBuscado]} );
 	},
 	// Update - Method to update
 	update: (req, res) => {
+		res.send('llego por post')
+		console.log(req.body)
+		// productoBuscado = req.params.id-1 
 		// Do the magic
 	},
 
